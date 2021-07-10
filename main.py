@@ -44,12 +44,12 @@ class Year(CalendarUnit):
 class Month(CalendarUnit):
     sizeIndex = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-    def __init__(self, pcur, pYear):
-        super().__init__(pcur)
+    def __init__(self, p_cur, pYear):
+        super().__init__(p_cur)
         self.y = pYear
 
-    def setMonth(self, pcur, pYear):
-        super().setCurrentPos(pcur)
+    def setMonth(self, p_cur, pYear):
+        super().setCurrentPos(p_cur)
         self.y = pYear
 
     def getMonth(self):
@@ -97,6 +97,7 @@ class Date:
         self.y = Year(pYear)
         self.m = Month(pMonth, self.y)
         self.d = Day(pDay, self.m)
+        self.output = "%d" % (self.m.getMonth()) + "/" + "%d" % (self.d.getDay()) + "/" + "%d" % (self.y.getYear())
 
     def increment(self):
         if not self.d.increment():
@@ -112,17 +113,20 @@ class Date:
 
 class TestIt:
 
+    def __init__(self, testMonth, testDay, testYear):
+        self.test_date = Date(testMonth, testDay, testYear)
+
     def main(self, testMonth, testDay, testYear):
-        self.testdate = Date(testMonth, testDay, testYear)
-        self.testdate.increment()
-        self.testdate.printDate()
+        self.test_date = Date(testMonth, testDay, testYear)
+        self.test_date.increment()
+        self.test_date.printDate()
 
 
 if __name__ == '__main__':
-    test = TestIt()
     m = int(input("Month: "))
     d = int(input("Day: "))
     y = int(input("Year: "))
+    test = TestIt(m, d, y)
     test.main(m, d, y)
 
 
@@ -145,7 +149,7 @@ def test_date(mm, dd, yy, expected):
                           (8, 31, 1992, "9/1/1992"), (7, 31, 1998, "8/1/1998"),
                           (12, 31, 1996, "1/1/1997"), (12, 31, 1994, "1/1/1995")])
 def test_main(mm, dd, yy, expected):
-    test_2 = TestIt()
+    test_2 = TestIt(mm, dd, yy)
     test_2.main(mm, dd, yy)
-    assert test_2.testdate.output == expected
+    assert test_2.test_date.output == expected
 
